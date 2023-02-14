@@ -9,9 +9,9 @@ namespace Clients.Common.DTO_s
     public class ChildDTO
     {
         #region data members
-        public string Id { get; set; } = string.Empty;
+        public int Id { get; set; }
+        public string IdNumber { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
         public DateTime BirthDate { get; set; }
 
         #endregion

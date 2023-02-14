@@ -46,15 +46,15 @@ namespace Clients.Repository.Repositories
             return await _context.HMOs.FindAsync(Id);
         }
 
-        public async Task<HMO> UpdateAsync(HMO c)
+        public async Task<HMO> UpdateAsync(HMO h)
         {
-            var x = await _context.HMOs.FindAsync(c.Id);
+            var x = await _context.HMOs.FindAsync(h.Id);
             if (x != null)
             {
-                x.Name = c.Name;
+                x.Name = h.Name;
             }
             await _context.SaveChangesAsync();
-            return c;
+            return h;
         }
     }
 }

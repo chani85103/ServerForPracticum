@@ -9,9 +9,10 @@ namespace Clients.Common.DTO_s
     public enum EGenderDTO { Male=0, Female=1 }
     public class ClientDTO
     {
-        
+
         #region data members
-        public string Id { get; set; } = string.Empty;
+        public int Id { get; set; }
+        public string IdNumber { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public DateTime BirthDate { get; set; }
@@ -22,9 +23,16 @@ namespace Clients.Common.DTO_s
         public int HmoId { get; set; }
         public List<ChildDTO> Children { get; set; }
 
-        public ClientDTO(string id, string firstName, string lastName, DateTime birthDate, bool toAdvertise, EGenderDTO eGender, string myImpression, int hmoId)
+       
+
+        public ClientDTO()
         {
-            Id = id;
+
+        }
+
+        public ClientDTO( string idNumber, string firstName, string lastName, DateTime birthDate, bool toAdvertise, EGenderDTO eGender, string myImpression, int hmoId, List<ChildDTO> children)
+        {
+            IdNumber = idNumber;
             FirstName = firstName;
             LastName = lastName;
             BirthDate = birthDate;
@@ -32,12 +40,9 @@ namespace Clients.Common.DTO_s
             EGender = eGender;
             MyImpression = myImpression;
             HmoId = hmoId;
+            Children = children;
         }
 
-        public ClientDTO()
-        {
-
-        }
         #endregion
 
     }

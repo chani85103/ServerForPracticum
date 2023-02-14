@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,24 +22,12 @@ namespace Clients.Repository.Repositories
         }
 
         public async Task<Client> AddAsync(Client client)
-        {
-            var nClient = new Client
-            {
-                Id = client.Id,
-                FirstName = client.FirstName,
-                LastName = client.LastName,
-                BirthDate = client.BirthDate,
-                ToAdvertise= client.ToAdvertise,
-                MyImpression = client.MyImpression,
-                HmoId= client.HmoId,
-                EGender= client.EGender
-            };
-            var added= await _context.Clients.AddAsync(nClient);
+        {           
+            var added=  _context.Clients.Add(client);
             await _context.SaveChangesAsync();
             return added.Entity;
         }
-
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(int id)
         {
             _context.Clients.Remove(await GetByIdAsync(id));
             await _context.SaveChangesAsync();
@@ -49,14 +38,21 @@ namespace Clients.Repository.Repositories
             return await _context.Clients.ToListAsync();
         }
 
-        public async Task<Client> GetByIdAsync(string Id)
+
+        public async Task<Client> GetByIdAsync(int id)
         {
-            return await _context.Clients.FindAsync(Id);
+            return await _context.Clients.FindAsync(id);
         }
 
-        public async Task<bool> IsExistsAsync(string id)
+        public async Task<Client> GetByIdNumberAsync(string idNumber)
         {
-            return await _context.Clients.AnyAsync(e => e.Id == id);
+            
+            return await _context.Clients.FirstOrDefaultAsync(x=>x.IdNumber==idNumber);
+        }
+
+        public async Task<bool> IsExistsAsync(string idNumber)
+        {
+            return await _context.Clients.AnyAsync(e => e.IdNumber == idNumber);
         }
 
         public async Task<List<Child>> UpdateAsync(string id,Child[] children)
@@ -69,6 +65,24 @@ namespace Clients.Repository.Repositories
             }
            
             return c?.Children;
+        }
+
+        public async Task<Client> UpdateAsync( Client client)
+        {
+            var x = await _context.Clients.FindAsync(client.Id);
+            if (x != null)
+            {
+                x.IdNumber = client.IdNumber;
+                x.FirstName = client.FirstName;
+                x.LastName = client.LastName;
+                x.BirthDate = client.BirthDate;
+                x.ToAdvertise = client.ToAdvertise;
+                x.MyImpression = client.MyImpression;
+                x.HmoId = client.HmoId;
+                x.EGender = client.EGender;
+            }
+            await _context.SaveChangesAsync();
+            return x;
         }
     }
 }

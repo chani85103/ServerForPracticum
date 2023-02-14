@@ -12,6 +12,7 @@ namespace Clients.Repository.Interfaces
     {
         DbSet<Client> Clients { get;set; }  
         DbSet<HMO> HMOs { get;set; }
+        DbSet<Child> Children { get;set; }  
         Task<int>SaveChangesAsync(CancellationToken cancellationToken=default);
     }
 }
