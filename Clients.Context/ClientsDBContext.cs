@@ -11,7 +11,7 @@ namespace Clients.Context
         public DbSet<Child> Children { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=CLientsDBContext;Trusted_Connection=True");
+            options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=ClientsDBContext;Trusted_Connection=True");
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {

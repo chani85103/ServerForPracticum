@@ -77,14 +77,6 @@ namespace Clients.Services.Services
 
         public async Task<List<ChildDTO>> UpdateAsync(string id, ChildDTO[] children)
         {
-            //// client.Children = null; client.HMO = null;
-            // Child[] c = _mapper.Map<Child[]>(children);
-            // Client client = await _clientRepository.UpdateAsync(id, c);
-            // HmoDTO hmo = _mapper.Map<HmoDTO>(client.MyImpression);
-            // client.MyImpression = null;
-            // ClientDTO c2 = _mapper.Map<ClientDTO>(client);
-            // c2.MyImpression= hmo.Name;
-            // return c2;
             Child[] c = _mapper.Map<Child[]>(children);
             List<Child> cn = await _clientRepository.UpdateAsync(id, c);
             return _mapper.Map<List<ChildDTO>>(cn);

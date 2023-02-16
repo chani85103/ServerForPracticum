@@ -2,6 +2,8 @@
 using Clients.Services.Interfaces;
 using Clients.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace Clients.WebApi.Controllers
 {
@@ -32,9 +34,16 @@ namespace Clients.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ClientDTO> Add([FromBody] ClientModel client)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClientDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ClientDTO>> Add([FromBody] ClientModel client)
         {
-            return await _clientService.AddAsync(new ClientDTO(client.IdNumber, client.FirstName, client.LastName, client.BirthDate, client.ToAdvertise, (EGenderDTO)client.Gender, client.MyImpression, client.HmoId, client.Children));
+            List<ChildDTO> children = new List<ChildDTO>();
+            client.Children.ForEach(c => children.Add(new ChildDTO(c.IdNumber, c.FirstName, c.BirthDate)));
+            ClientDTO c = new ClientDTO(client.IdNumber, client.FirstName, client.LastName, client.BirthDate, client.ToAdvertise, (EGenderDTO)client.Gender, client.MyImpression, client.HmoId, children);
+            if (await _clientService.IsExistsAsync(c.IdNumber) == true)
+                return BadRequest();
+            return await _clientService.AddAsync(c);
         }
         [HttpPut("{id}/children")]
         public async Task<List<ChildDTO>> Update(string id, ChildDTO[] children)
@@ -44,7 +53,9 @@ namespace Clients.WebApi.Controllers
         [HttpPut("{id}")]
         public async Task<ClientDTO> Update(ClientModel client)
         {
-            return await _clientService.UpdateAsync(new ClientDTO(client.IdNumber,client.FirstName,client.LastName,client.BirthDate,client.ToAdvertise,(EGenderDTO)client.Gender,client.MyImpression,client.HmoId,client.Children));
+            List<ChildDTO> children = new List<ChildDTO>();
+            client.Children.ForEach(c => children.Add(new ChildDTO(c.IdNumber, c.FirstName, c.BirthDate)));
+            return await _clientService.UpdateAsync(new ClientDTO(client.IdNumber, client.FirstName, client.LastName, client.BirthDate, client.ToAdvertise, (EGenderDTO)client.Gender, client.MyImpression, client.HmoId, children));
         }
         [HttpDelete("{id}")]
         public async Task delete(int id)

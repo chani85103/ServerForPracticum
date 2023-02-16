@@ -15,5 +15,16 @@ namespace Clients.Common.DTO_s
         public DateTime BirthDate { get; set; }
 
         #endregion
+        public ChildDTO()
+        {
+
+        }
+
+        public ChildDTO(string idNumber, string firstName, DateTime birthDate)
+        {
+            IdNumber = idNumber;
+            FirstName = firstName;
+            BirthDate = birthDate;
+        }
     }
 }

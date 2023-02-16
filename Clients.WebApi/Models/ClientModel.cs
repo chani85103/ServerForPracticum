@@ -14,7 +14,7 @@ namespace Clients.WebApi.Models
         public int Gender { get; set; }
         public string MyImpression { get; set; }
         public int HmoId { get; set; }
-        public List<ChildDTO> Children { get; set; }
+        public List<ChildModel> Children { get; set; }
 
 
         #endregion
