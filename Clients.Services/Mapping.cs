@@ -14,7 +14,7 @@ namespace Clients.Services
         public Mapping()
         {
             CreateMap<Client, ClientDTO>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.FirstName))
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ReverseMap();
             CreateMap<HMO, HmoDTO>()
           //.ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Name))

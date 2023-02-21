@@ -40,9 +40,9 @@ namespace Clients.WebApi.Controllers
         {
             List<ChildDTO> children = new List<ChildDTO>();
             client.Children.ForEach(c => children.Add(new ChildDTO(c.IdNumber, c.FirstName, c.BirthDate)));
-            ClientDTO c = new ClientDTO(client.IdNumber, client.FirstName, client.LastName, client.BirthDate, client.ToAdvertise, (EGenderDTO)client.Gender, client.MyImpression, client.HmoId, children);
-            if (await _clientService.IsExistsAsync(c.IdNumber) == true)
+            if (await _clientService.IsExistsAsync(client.IdNumber) == true)
                 return BadRequest();
+            ClientDTO c = new ClientDTO(client.IdNumber, client.FirstName, client.LastName, client.BirthDate, client.ToAdvertise,(EGenderDTO) client.Gender, client.MyImpression, client.HmoId, children);
             return await _clientService.AddAsync(c);
         }
         [HttpPut("{id}/children")]

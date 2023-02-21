@@ -22,10 +22,10 @@ namespace Clients.Repository.Repositories
         }
 
         public async Task<Client> AddAsync(Client client)
-        {           
-            var added=  _context.Clients.Add(client);
+        {
+            var added = _context.Clients.Add(client);
             await _context.SaveChangesAsync();
-            return added.Entity;
+            return await GetByIdAsync(added.Entity.Id);
         }
         public async Task DeleteAsync(int id)
         {
@@ -35,13 +35,13 @@ namespace Clients.Repository.Repositories
 
         public async Task<List<Client>> GetAllAsync()
         {
-            return await _context.Clients.ToListAsync();
+            return await _context.Clients.Include(x => x.HMO).ToListAsync();
         }
 
 
         public async Task<Client> GetByIdAsync(int id)
         {
-            return await _context.Clients.FindAsync(id);
+            return await (_context.Clients.Include(x => x.HMO)).FirstOrDefaultAsync(x=>x.Id==id);
         }
 
         public async Task<Client> GetByIdNumberAsync(string idNumber)
